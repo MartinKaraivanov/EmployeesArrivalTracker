@@ -1,0 +1,44 @@
+﻿@page "/arrivalsdata"
+
+<PageTitle>Arrivals Data</PageTitle>
+
+@using EmployeesArrivalTracker.BlazorServer.Data
+@inject ArrivalService ArrivalService
+
+<h1>Arrivals Data</h1>
+
+@if (arrivals == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+        <thead>
+            <tr>
+                <th>EmployeeId</th>
+                <th>Arrival Datetime</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in arrivals)
+            {
+                <tr>
+                    <td>@item.EmployeeId</td>
+                    <td>@item.ArrivalDatetime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Arrival[]? arrivals;
+
+    protected override async Task OnInitializedAsync()
+    {
+        arrivals = await ArrivalService.GetArrivalsAsync();
+    }
+
+    
+}
