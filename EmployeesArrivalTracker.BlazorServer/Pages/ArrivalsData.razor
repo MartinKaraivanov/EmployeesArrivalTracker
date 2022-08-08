@@ -27,15 +27,24 @@
 }
 else
 {
+    <hr />
+    <h4>Filter by employee id</h4>
     <td><input type="text" placeholder="Enter employee id" @bind="searchById" /></td>
     <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
         Search
     </button>
+    <hr />
+    <h4>Filter by arrival datetime</h4>
     <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" /></td>
     <td><input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" /></td>
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
         Search
     </button>
+    <hr />
+    <button class="btn-primary hidewhenprint" @onclick="showAll">
+        Show All
+    </button>
+    <hr />
 	<table class="table">
         <thead>
             <tr>
@@ -69,8 +78,8 @@ else
         arrivals = await ArrivalService.GetArrivalsAsync();
     }
 
-    private bool isSortedAscending;
-    private string activeSortColumn;
+    private bool isSortedAscending = false;
+    private string activeSortColumn = "ArrivalDatetime";
 
     private void SortTable(string columnName)
     {
@@ -112,16 +121,17 @@ else
 
     void showEmployeeById()
     {
-        if (searchById == "")
+        if (searchById == "" || searchById == null)
         {
             OnInitializedAsync();
         }
         else
         {
             arrivals = ArrivalService.GetById(int.Parse(searchById));
-            isSortedAscending = !isSortedAscending;
-            SortTable(activeSortColumn);
         }
+
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
 
     }
 
@@ -130,16 +140,24 @@ else
 
     void showEmployeesByArrivalDatetime()
     {
-        if(searchByDatetimeFrom == "" || searchByDatetimeTo == "")
+        if(searchByDatetimeFrom == "" || searchByDatetimeTo == "" || searchByDatetimeFrom == null || searchByDatetimeTo == null)
         {
             OnInitializedAsync();
         }
         else
         {
             arrivals = ArrivalService.GetByArrivalDatetime(DateTime.Parse(searchByDatetimeFrom), DateTime.Parse(searchByDatetimeTo));
-            isSortedAscending = !isSortedAscending;
-            SortTable(activeSortColumn);
         }
+
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
+    }
+
+    void showAll()
+    {
+        OnInitializedAsync();
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
     }
 
 }
