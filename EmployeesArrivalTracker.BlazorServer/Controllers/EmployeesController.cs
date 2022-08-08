@@ -24,6 +24,8 @@ public class EmployeesController : ControllerBase
     [HttpPost("AddEmployees")]
     public void AddEmployees([FromBody] IEnumerable<EmployeeParam>? newEmployees)
     {
+        ArgumentNullException.ThrowIfNull(newEmployees);
+
         Console.WriteLine("Stignahme tuka 2");
 
         _dbContext.Employees.AddRange(newEmployees.Select(item => new Employee() { EmployeeId = item.Id, FirstName = item.Name, LastName = item.SurName, Age = item.Age }));
@@ -34,6 +36,8 @@ public class EmployeesController : ControllerBase
     [HttpPost("AddArrivals")]
     public void AddArrivals([FromBody] IEnumerable<ArrivalParam>? newArrivals)
     {
+        ArgumentNullException.ThrowIfNull(newArrivals);
+
         Console.WriteLine("Stignahme tuka");   
 
         _dbContext.Arrivals.AddRange(newArrivals.Select(item => new Arrival() { EmployeeId = item.EmployeeId, ArrivalDatetime = item.When }));

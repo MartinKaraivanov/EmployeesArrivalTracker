@@ -72,7 +72,7 @@ else
 }
 
 @code {
-    private Arrival[]? arrivals;
+    private Arrival[] arrivals = new Arrival[] { };
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,7 +86,7 @@ else
     {
         if(columnName != activeSortColumn)
         {
-            arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName)?.GetValue(x, null)).ToArray();
             isSortedAscending = true;
             activeSortColumn = columnName;
         }
@@ -94,11 +94,11 @@ else
         {
             if(isSortedAscending)
             {
-                arrivals = arrivals.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+                arrivals = arrivals.OrderByDescending(x => x.GetType().GetProperty(columnName)?.GetValue(x, null)).ToArray();
             }
             else
             {
-                arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+                arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName)?.GetValue(x, null)).ToArray();
             }
 
             isSortedAscending = !isSortedAscending;
@@ -120,7 +120,7 @@ else
         //return "fa-solid fa-plane-arrival";
     }
 
-    string searchById;
+    string? searchById;
 
     void showEmployeeById()
     {
@@ -138,8 +138,8 @@ else
 
     }
 
-    string searchByDatetimeFrom;
-    string searchByDatetimeTo;
+    string? searchByDatetimeFrom;
+    string? searchByDatetimeTo;
 
     void showEmployeesByArrivalDatetime()
     {
