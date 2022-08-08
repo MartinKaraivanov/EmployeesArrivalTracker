@@ -27,6 +27,15 @@
 }
 else
 {
+    <td><input type="text" placeholder="Enter employee id" @bind="searchById" /></td>
+    <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
+        Search
+    </button>
+    <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" /></td>
+    <td><input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" /></td>
+    <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
+        Search
+    </button>
 	<table class="table">
         <thead>
             <tr>
@@ -97,6 +106,40 @@ else
             return "fa-sort-up";
         }
         return "fa-sort-down";
+    }
+
+    string searchById;
+
+    void showEmployeeById()
+    {
+        if (searchById == "")
+        {
+            OnInitializedAsync();
+        }
+        else
+        {
+            arrivals = ArrivalService.GetById(int.Parse(searchById));
+            isSortedAscending = !isSortedAscending;
+            SortTable(activeSortColumn);
+        }
+
+    }
+
+    string searchByDatetimeFrom;
+    string searchByDatetimeTo;
+
+    void showEmployeesByArrivalDatetime()
+    {
+        if(searchByDatetimeFrom == "" || searchByDatetimeTo == "")
+        {
+            OnInitializedAsync();
+        }
+        else
+        {
+            arrivals = ArrivalService.GetByArrivalDatetime(DateTime.Parse(searchByDatetimeFrom), DateTime.Parse(searchByDatetimeTo));
+            isSortedAscending = !isSortedAscending;
+            SortTable(activeSortColumn);
+        }
     }
 
 }

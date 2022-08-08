@@ -15,6 +15,16 @@ namespace EmployeesArrivalTracker.BlazorServer.Data
         {
             return Task.FromResult(_dbContext.Arrivals.OrderByDescending(x => x.ArrivalDatetime).ToArray());
         }
+
+        public Arrival[] GetById(int employeeId)
+        {
+            return _dbContext.Arrivals.Where(x => x.EmployeeId == employeeId).ToArray();
+        }
+
+        public Arrival[] GetByArrivalDatetime(DateTime arrivalDatetimeFrom, DateTime arrivalDatetimeTo)
+        {
+            return _dbContext.Arrivals.Where(x => x.ArrivalDatetime >= arrivalDatetimeFrom && x.ArrivalDatetime <= arrivalDatetimeTo).ToArray();
+        }
         
     }
 }
