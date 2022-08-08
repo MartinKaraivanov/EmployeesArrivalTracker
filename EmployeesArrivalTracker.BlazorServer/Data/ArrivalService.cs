@@ -13,7 +13,7 @@ namespace EmployeesArrivalTracker.BlazorServer.Data
 
         public Task<Arrival[]> GetArrivalsAsync()
         {
-            return Task.FromResult(_dbContext.Arrivals.ToArray());
+            return Task.FromResult(_dbContext.Arrivals.OrderByDescending(x => x.ArrivalDatetime).ToArray());
         }
         
     }

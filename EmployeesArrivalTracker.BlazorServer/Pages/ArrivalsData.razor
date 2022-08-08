@@ -5,6 +5,20 @@
 @using EmployeesArrivalTracker.BlazorServer.Data
 @inject ArrivalService ArrivalService
 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .sort-th
+    {
+        cursor: pointer;
+    }
+
+    .fa
+    {
+        float: inline-end;
+    }
+</style>
+
 <h1>Arrivals Data</h1>
 
 @if (arrivals == null)
@@ -16,8 +30,14 @@ else
 	<table class="table">
         <thead>
             <tr>
-                <th>EmployeeId</th>
-                <th>Arrival Datetime</th>
+                <th class="sort-th" @onclick="@(() => SortTable("EmployeeId"))">
+                    EmployeeId
+                    <span class="fa @(SetSortIcon("EmployeeId")) " ></span>
+                </th>
+                <th class="sort-th" @onclick="@(() => SortTable("ArrivalDatetime"))">
+                    Arrival Datetime
+                    <span class="fa @(SetSortIcon("ArrivalDatetime")) " ></span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,5 +60,43 @@ else
         arrivals = await ArrivalService.GetArrivalsAsync();
     }
 
-    
+    private bool isSortedAscending;
+    private string activeSortColumn;
+
+    private void SortTable(string columnName)
+    {
+        if(columnName != activeSortColumn)
+        {
+            arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if(isSortedAscending)
+            {
+                arrivals = arrivals.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            else
+            {
+                arrivals = arrivals.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if(activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if(isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        return "fa-sort-down";
+    }
+
 }
