@@ -1,9 +1,21 @@
 CREATE DATABASE employees_arrival;
 USE employees_arrival;
 
+CREATE TABLE employees
+(
+	employee_id INT NOT NULL PRIMARY KEY,
+	first_name VARCHAR(40) NOT NULL,
+    	last_name VARCHAR(40) NOT NULL,
+    	age INT NOT NULL
+);
+
 CREATE TABLE arrivals
 (
 	employee_id INT NOT NULL,
 	arrival_datetime DATETIME NOT NULL,
 	primary key(employee_id, arrival_datetime)
 );
+
+ALTER TABLE arrivals
+ADD CONSTRAINT fk_arrivals_employees
+FOREIGN KEY (employee_id) REFERENCES employees(employee_id);

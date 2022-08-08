@@ -3,6 +3,7 @@
 <PageTitle>Arrivals Data</PageTitle>
 
 @using EmployeesArrivalTracker.BlazorServer.Data
+@using EmployeesArrivalTracker.BlazorServer.Entities
 @inject ArrivalService ArrivalService
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -113,8 +114,10 @@ else
         if(isSortedAscending)
         {
             return "fa-sort-up";
+            //return "fa-solid fa-plane-departure";
         }
         return "fa-sort-down";
+        //return "fa-solid fa-plane-arrival";
     }
 
     string searchById;

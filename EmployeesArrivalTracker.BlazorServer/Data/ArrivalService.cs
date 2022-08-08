@@ -1,4 +1,5 @@
 ﻿using EmployeesArrivalTracker.BlazorServer.Data;
+using EmployeesArrivalTracker.BlazorServer.Entities;
 
 namespace EmployeesArrivalTracker.BlazorServer.Data
 {
