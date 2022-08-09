@@ -32,18 +32,37 @@ else
 {
     <hr />
     <h4>Filters: </h4>
+    <h6>Only the last selected filter will be applied</h6>
     <br />
     <td><input type="text" placeholder=" By employee id" @bind="searchById" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
         Filter
     </button> | 
-    <input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" />
+
+    <input type="text" placeholder=" By age" @bind="searchByAge" />
+    <button class="btn-primary hidewhenprint" @onclick="showEmployeesByAge">
+        Filter
+    </button> |
+
+    <input type="text" placeholder=" By first name" @bind="searchByFirstName" />
+    <button class="btn-primary hidewhenprint" @onclick="showEmployeesByFirstName">
+        Filter
+    </button> |
+
+    <input type="text" placeholder=" By last name" @bind="searchByLastName" />
+    <button class="btn-primary hidewhenprint" @onclick="showEmployeesByLastName">
+        Filter
+    </button></td>
+    
+    <br />
+
+    <h6>By arrival datetime</h6>
+    <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" />
     <input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
         Filter
-    </button>
+    </button></td>
 
-    </td>
     <hr />
     <button class="btn-primary hidewhenprint" @onclick="showAll">
         Show All
@@ -149,6 +168,60 @@ else
         else
         {
             arrivals = ArrivalService.GetById(int.Parse(searchById));
+        }
+
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
+
+    }
+
+    string? searchByAge;
+
+    void showEmployeesByAge()
+    {
+        if (searchByAge == "" || searchByAge == null)
+        {
+            OnInitializedAsync();
+        }
+        else
+        {
+            arrivals = ArrivalService.GetByAge(int.Parse(searchByAge));
+        }
+
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
+
+    }
+
+    string? searchByFirstName;
+
+    void showEmployeesByFirstName()
+    {
+        if (searchByFirstName == "" || searchByFirstName == null)
+        {
+            OnInitializedAsync();
+        }
+        else
+        {
+            arrivals = ArrivalService.GetByFirstName(searchByFirstName);
+        }
+
+        isSortedAscending = !isSortedAscending;
+        SortTable(activeSortColumn);
+
+    }
+
+    string? searchByLastName;
+
+    void showEmployeesByLastName()
+    {
+        if (searchByLastName == "" || searchByLastName == null)
+        {
+            OnInitializedAsync();
+        }
+        else
+        {
+            arrivals = ArrivalService.GetByLastName(searchByLastName);
         }
 
         isSortedAscending = !isSortedAscending;
