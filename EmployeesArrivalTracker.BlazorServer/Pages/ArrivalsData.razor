@@ -6,7 +6,9 @@
 @using EmployeesArrivalTracker.BlazorServer.Entities
 @inject ArrivalService ArrivalService
 
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+</head>
 
 <style>
     .sort-th
@@ -32,14 +34,14 @@ else
     <h4>Filter by employee id</h4>
     <td><input type="text" placeholder="Enter employee id" @bind="searchById" /></td>
     <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
-        Search
+        Filter
     </button>
     <hr />
     <h4>Filter by arrival datetime</h4>
     <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" /></td>
     <td><input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" /></td>
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
-        Search
+        Filter
     </button>
     <hr />
     <button class="btn-primary hidewhenprint" @onclick="showAll">
@@ -53,6 +55,18 @@ else
                     EmployeeId
                     <span class="fa @(SetSortIcon("EmployeeId")) " ></span>
                 </th>
+                <th class="sort-th" @onclick="@(() => SortTable("FirstName"))">
+                    First name
+                    <span class="fa @(SetSortIcon("FirstName")) " ></span>
+                </th>
+                <th class="sort-th" @onclick="@(() => SortTable("LastName"))">
+                    Last name
+                    <span class="fa @(SetSortIcon("LastName")) " ></span>
+                </th>
+                <th class="sort-th" @onclick="@(() => SortTable("Age"))">
+                    Age
+                    <span class="fa @(SetSortIcon("Age")) " ></span>
+                </th>
                 <th class="sort-th" @onclick="@(() => SortTable("ArrivalDatetime"))">
                     Arrival Datetime
                     <span class="fa @(SetSortIcon("ArrivalDatetime")) " ></span>
@@ -64,6 +78,9 @@ else
             {
                 <tr>
                     <td>@item.EmployeeId</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Age</td>
                     <td>@item.ArrivalDatetime</td>
                 </tr>
             }
@@ -72,7 +89,7 @@ else
 }
 
 @code {
-    private Arrival[] arrivals = new Arrival[] { };
+    private ArrivalViewModel[] arrivals = new ArrivalViewModel[] { };
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,11 +130,11 @@ else
         }
         if(isSortedAscending)
         {
-            return "fa-sort-up";
-            //return "fa-solid fa-plane-departure";
+            //return "fa-sort-up";
+            return "fa-solid fa-plane-departure";
         }
-        return "fa-sort-down";
-        //return "fa-solid fa-plane-arrival";
+        //return "fa-sort-down";
+        return "fa-solid fa-plane-arrival";
     }
 
     string? searchById;
