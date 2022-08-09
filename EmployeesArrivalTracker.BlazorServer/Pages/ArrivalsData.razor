@@ -31,18 +31,19 @@
 else
 {
     <hr />
-    <h4>Filter by employee id</h4>
-    <td><input type="text" placeholder="Enter employee id" @bind="searchById" /></td>
+    <h4>Filters: </h4>
+    <br />
+    <td><input type="text" placeholder=" By employee id" @bind="searchById" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
         Filter
-    </button>
-    <hr />
-    <h4>Filter by arrival datetime</h4>
-    <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" /></td>
-    <td><input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" /></td>
+    </button> | 
+    <input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" />
+    <input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
         Filter
     </button>
+
+    </td>
     <hr />
     <button class="btn-primary hidewhenprint" @onclick="showAll">
         Show All
