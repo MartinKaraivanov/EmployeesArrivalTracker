@@ -7,7 +7,7 @@ public class Employee
     public int Id { get; set; }
     public int? ManagerId { get; set; }
     public int Age { get; set; }
-    public List<string>? Teams { get; set; }
+    public IEnumerable<string>? Teams { get; set; }
     public string? Role { get; set; }
     public string? Email { get; set; }
     public string? SurName { get; set; }
@@ -25,17 +25,16 @@ public class Program
     {
 
         int? managerId = null;
-        List<string> employeeTeams = new List<string>();
+        var employeeTeams = Enumerable.Empty<string>();
         string? role = "Manager";
 
         if (lineCounter >= 11)
         {
             managerId = generator.Next(11);
+
             int count = generator.Next(1, 4);
-            for (int j = 0; j < count; j++)
-            {
-                employeeTeams.Add(teams[generator.Next(4)]);
-            }
+            employeeTeams = Enumerable.Range(0, count).Select(_ => teams[generator.Next(4)]);
+
             role = roles[generator.Next(4)];
         }
 
