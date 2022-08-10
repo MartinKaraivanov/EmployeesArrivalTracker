@@ -59,7 +59,7 @@ public class Program
 
         var query = File.ReadLines(readFileName).Select(getEmployee);
 
-        using FileStream createStream = File.Create(jsonFileName);
-        JsonSerializer.Serialize(createStream, query, new JsonSerializerOptions { WriteIndented = true });
+        using FileStream resultStream = File.Create(jsonFileName);
+        JsonSerializer.Serialize(resultStream, query, new JsonSerializerOptions { WriteIndented = true });
     }
 }
