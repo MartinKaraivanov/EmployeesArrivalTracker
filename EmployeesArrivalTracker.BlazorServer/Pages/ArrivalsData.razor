@@ -34,22 +34,22 @@ else
     <h4>Filters: </h4>
     <h6>Only the last selected filter will be applied</h6>
     <br />
-    <td><input type="text" placeholder=" By employee id" @bind="searchById" />
+    <td><input type="text" placeholder=" By employee id" @bind="filterById" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeeById">
         Filter
     </button> | 
 
-    <input type="text" placeholder=" By age" @bind="searchByAge" />
+    <input type="text" placeholder=" By age" @bind="filterByAge" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByAge">
         Filter
     </button> |
 
-    <input type="text" placeholder=" By first name" @bind="searchByFirstName" />
+    <input type="text" placeholder=" By first name" @bind="filterByFirstName" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByFirstName">
         Filter
     </button> |
 
-    <input type="text" placeholder=" By last name" @bind="searchByLastName" />
+    <input type="text" placeholder=" By last name" @bind="filterByLastName" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByLastName">
         Filter
     </button></td>
@@ -57,8 +57,8 @@ else
     <br />
 
     <h6>By arrival datetime</h6>
-    <td><input type="text" placeholder="From arrival datetime" @bind="searchByDatetimeFrom" />
-    <input type="text" placeholder="To arrival datetime" @bind="searchByDatetimeTo" />
+    <td><input type="text" placeholder="From arrival datetime" @bind="filterByDatetimeFrom" />
+    <input type="text" placeholder="To arrival datetime" @bind="filterByDatetimeTo" />
     <button class="btn-primary hidewhenprint" @onclick="showEmployeesByArrivalDatetime">
         Filter
     </button></td>
@@ -157,95 +157,123 @@ else
         return "fa-solid fa-plane-arrival";
     }
 
-    string? searchById;
+    string? filterById;
 
     void showEmployeeById()
     {
-        if (searchById == "" || searchById == null)
+        if (filterById == "" || filterById == null)
         {
             OnInitializedAsync();
         }
         else
         {
-            arrivals = ArrivalService.GetById(int.Parse(searchById));
+            arrivals = ArrivalService.GetById(int.Parse(filterById));
         }
 
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
 
+        filterByAge = null;
+        filterByFirstName = null;
+        filterByLastName = null;
+        filterByDatetimeFrom = null;
+        filterByDatetimeTo = null;
+
     }
 
-    string? searchByAge;
+    string? filterByAge;
 
     void showEmployeesByAge()
     {
-        if (searchByAge == "" || searchByAge == null)
+        if (filterByAge == "" || filterByAge == null)
         {
             OnInitializedAsync();
         }
         else
         {
-            arrivals = ArrivalService.GetByAge(int.Parse(searchByAge));
+            arrivals = ArrivalService.GetByAge(int.Parse(filterByAge));
         }
 
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
-        searchByLastName = null;
+
+        filterById = null;
+        filterByFirstName = null;
+        filterByLastName = null;
+        filterByDatetimeFrom = null;
+        filterByDatetimeTo = null;
 
     }
 
-    string? searchByFirstName;
+    string? filterByFirstName;
 
     void showEmployeesByFirstName()
     {
-        if (searchByFirstName == "" || searchByFirstName == null)
+        if (filterByFirstName == "" || filterByFirstName == null)
         {
             OnInitializedAsync();
         }
         else
         {
-            arrivals = ArrivalService.GetByFirstName(searchByFirstName);
+            arrivals = ArrivalService.GetByFirstName(filterByFirstName);
         }
 
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
 
+        filterById = null;
+        filterByAge = null;
+        filterByLastName = null;
+        filterByDatetimeFrom = null;
+        filterByDatetimeTo = null;
+
     }
 
-    string? searchByLastName;
+    string? filterByLastName;
 
     void showEmployeesByLastName()
     {
-        if (searchByLastName == "" || searchByLastName == null)
+        if (filterByLastName == "" || filterByLastName == null)
         {
             OnInitializedAsync();
         }
         else
         {
-            arrivals = ArrivalService.GetByLastName(searchByLastName);
+            arrivals = ArrivalService.GetByLastName(filterByLastName);
         }
 
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
+
+        filterById = null;
+        filterByAge = null;
+        filterByFirstName = null;
+        filterByDatetimeFrom = null;
+        filterByDatetimeTo = null;
 
     }
 
-    string? searchByDatetimeFrom;
-    string? searchByDatetimeTo;
+    string? filterByDatetimeFrom;
+    string? filterByDatetimeTo;
 
     void showEmployeesByArrivalDatetime()
     {
-        if(searchByDatetimeFrom == "" || searchByDatetimeTo == "" || searchByDatetimeFrom == null || searchByDatetimeTo == null)
+        if(filterByDatetimeFrom == "" || filterByDatetimeTo == "" || filterByDatetimeFrom == null || filterByDatetimeTo == null)
         {
             OnInitializedAsync();
         }
         else
         {
-            arrivals = ArrivalService.GetByArrivalDatetime(DateTime.Parse(searchByDatetimeFrom), DateTime.Parse(searchByDatetimeTo));
+            arrivals = ArrivalService.GetByArrivalDatetime(DateTime.Parse(filterByDatetimeFrom), DateTime.Parse(filterByDatetimeTo));
         }
 
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
+
+        filterById = null;
+        filterByAge = null;
+        filterByFirstName = null;
+        filterByLastName = null;
     }
 
     void showAll()
@@ -253,6 +281,13 @@ else
         OnInitializedAsync();
         isSortedAscending = !isSortedAscending;
         SortTable(activeSortColumn);
+
+        filterById = null;
+        filterByAge = null;
+        filterByFirstName = null;
+        filterByLastName = null;
+        filterByDatetimeFrom = null;
+        filterByDatetimeTo = null;
     }
 
 }
